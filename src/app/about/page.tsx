@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { unstable_cache } from "next/cache";
 
 type APOD = {
   title: string;
@@ -10,14 +11,22 @@ type APOD = {
   copyright?: string;
 };
 
-async function getAPOD(): Promise<APOD | null> {
-  try {
+const fetchAPOD = unstable_cache(
+  async () => {
     const key = process.env.NASA_API_KEY || "DEMO_KEY";
     const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}`, {
-      next: { revalidate: 86400 },
+      cache: "no-store",
     });
-    if (!res.ok) return null;
-    return res.json();
+    if (!res.ok) throw new Error(`NASA API error: ${res.status}`);
+    return res.json() as Promise<APOD>;
+  },
+  ["apod"],
+  { revalidate: 86400 }
+);
+
+async function getAPOD(): Promise<APOD | null> {
+  try {
+    return await fetchAPOD();
   } catch {
     return null;
   }
