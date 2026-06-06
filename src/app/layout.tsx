@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col" suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col overflow-x-hidden" suppressHydrationWarning>
         <Providers>
 
           {/* ── Top nav ── */}
           <header className="border-b border-cyan-900/40 bg-[#040d1a]/80 backdrop-blur-md sticky top-0 z-50">
-            <nav className="shell flex items-center gap-6 py-3">
+            <nav className="shell flex items-center gap-2 sm:gap-6 py-3">
 
               {/* Logo */}
               <Link href="/" className="flex items-center gap-2.5 no-underline group">
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   style={{ fontFamily: "'Orbitron', sans-serif" }}>
                   ⊕
                 </div>
-                <span className="text-sm font-bold tracking-widest text-cyan-300 uppercase hover:text-cyan-200 transition-colors"
+                <span className="hidden sm:inline text-sm font-bold tracking-widest text-cyan-300 uppercase hover:text-cyan-200 transition-colors"
                   style={{ fontFamily: "'Orbitron', sans-serif" }}>
                   Space Command
                 </span>
