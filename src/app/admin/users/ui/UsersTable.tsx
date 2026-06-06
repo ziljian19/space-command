@@ -10,7 +10,7 @@ type User = {
   createdAt: Date;
 };
 
-export default function UsersTable({ users: initial }: { users: User[] }) {
+export default function UsersTable({ users: initial, isAdmin }: { users: User[]; isAdmin: boolean }) {
   const [users, setUsers] = useState(initial);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState({ email: "", name: "", role: "user", password: "" });
@@ -81,7 +81,7 @@ export default function UsersTable({ users: initial }: { users: User[] }) {
             <th>Name</th>
             <th>Role</th>
             <th>Joined</th>
-            <th></th>
+            {isAdmin && <th></th>}
           </tr>
         </thead>
         <tbody>
@@ -159,26 +159,28 @@ export default function UsersTable({ users: initial }: { users: User[] }) {
                 <td className="text-slate-600 font-mono text-xs whitespace-nowrap">
                   {new Date(u.createdAt).toLocaleDateString()}
                 </td>
-                <td>
-                  <div className="flex items-center gap-2">
-                    <button
-                      className="btn text-xs py-1 px-3"
-                      onClick={() => startEdit(u)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn text-xs py-1 px-3 text-red-400 border-red-900/50 hover:bg-red-950/40 disabled:opacity-40"
-                      onClick={() => deleteUser(u.id)}
-                      disabled={deletingId === u.id}
-                    >
-                      {deletingId === u.id ? "…" : "Delete"}
-                    </button>
-                  </div>
-                  {msg?.id === u.id && (
-                    <p className="text-xs font-mono mt-1 text-red-400">{msg.text}</p>
-                  )}
-                </td>
+                {isAdmin && (
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="btn text-xs py-1 px-3"
+                        onClick={() => startEdit(u)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn text-xs py-1 px-3 text-red-400 border-red-900/50 hover:bg-red-950/40 disabled:opacity-40"
+                        onClick={() => deleteUser(u.id)}
+                        disabled={deletingId === u.id}
+                      >
+                        {deletingId === u.id ? "…" : "Delete"}
+                      </button>
+                    </div>
+                    {msg?.id === u.id && (
+                      <p className="text-xs font-mono mt-1 text-red-400">{msg.text}</p>
+                    )}
+                  </td>
+                )}
               </tr>
             )
           )}

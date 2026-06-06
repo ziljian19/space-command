@@ -4,7 +4,8 @@ import AddUserForm from "./ui/AddUserForm";
 import UsersTable from "./ui/UsersTable";
 
 export default async function UsersPage() {
-  await requireAuth();
+  const session = await requireAuth();
+  const isAdmin = session.user?.role === "admin";
   const users = await prisma.user.findMany({ orderBy: { id: "asc" } });
 
   return (
@@ -16,12 +17,14 @@ export default async function UsersPage() {
         </h1>
       </div>
 
-      <div className="card card-glow">
-        <p className="text-xs font-mono uppercase tracking-widest text-cyan-800 mb-3">Add Operator</p>
-        <AddUserForm />
-      </div>
+      {isAdmin && (
+        <div className="card card-glow">
+          <p className="text-xs font-mono uppercase tracking-widest text-cyan-800 mb-3">Add Operator</p>
+          <AddUserForm />
+        </div>
+      )}
 
-      <UsersTable users={users} />
+      <UsersTable users={users} isAdmin={isAdmin} />
     </div>
   );
 }

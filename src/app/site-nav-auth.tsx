@@ -13,6 +13,11 @@ export default function SiteNavAuth() {
   if (session) {
     return (
       <span className="ml-auto flex items-center gap-2">
+        {session.user?.name && (
+          <span className="hidden sm:inline text-xs font-mono text-cyan-700 tracking-widest">
+            {session.user.name}
+          </span>
+        )}
         <Link href="/admin" className="btn text-xs py-1 px-3 no-underline">
           ⌘ Admin
         </Link>
