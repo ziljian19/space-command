@@ -1,26 +1,7 @@
-import type { NextAuthOptions, User } from "next-auth";
-import type { JWT } from "next-auth/jwt";
-import type { Session } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
-
-interface ExtendedUser extends User {
-  role: string;
-}
-
-interface ExtendedJWT extends JWT {
-  role?: string;
-}
-
-interface ExtendedSession extends Session {
-  user: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-    role?: string;
-  };
-}
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -42,18 +23,18 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name:  user.name ?? "User",
           role:  user.role,
-        } as ExtendedUser;
+        };
       },
     }),
   ],
   pages: { signIn: "/login" },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) (token as ExtendedJWT).role = (user as ExtendedUser).role;
+      if (user) token.role = user.role;
       return token;
     },
     async session({ session, token }) {
-      (session as ExtendedSession).user.role = (token as ExtendedJWT).role;
+      session.user.role = token.role;
       return session;
     },
   },
