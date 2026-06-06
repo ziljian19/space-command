@@ -14,7 +14,8 @@ export default function SiteNavAuth() {
     return (
       <span className="ml-auto flex items-center gap-2">
         {session.user?.name && (
-          <span className="hidden sm:inline text-xs font-mono text-cyan-700 tracking-widest">
+          <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded border border-cyan-900/50 bg-cyan-950/30 text-xs font-mono text-cyan-500 tracking-widest">
+            <span className="text-cyan-700">⊕</span>
             {session.user.name}
           </span>
         )}
