@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
 export default async function AdminHome() {
-  const session = await requireAuth();
+  const session = await requireAuth() as { user?: { email?: string; role?: string } };
   const [userCount, submissionCount, latestSub] = await Promise.all([
     prisma.user.count(),
     prisma.contactSubmission.count(),
@@ -29,7 +29,7 @@ export default async function AdminHome() {
     },
     {
       label: "Active Session",
-      value: (session.user as any)?.role === "admin" ? "Admin" : "User",
+      value: session.user?.role === "admin" ? "Admin" : "User",
       icon: "◎",
       href: null,
       sub: session.user?.email ?? "—",

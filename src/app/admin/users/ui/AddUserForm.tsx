@@ -5,6 +5,7 @@ export default function AddUserForm() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [role, setRole] = useState<"user" | "admin">("user");
+
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
 
@@ -56,7 +57,7 @@ export default function AddUserForm() {
       <select
         className="input w-32 max-w-[160px]"
         value={role}
-        onChange={(e) => setRole(e.target.value as any)}
+        onChange={(e) => setRole(e.target.value as "user" | "admin")}
         name="new-user-role"
       >
         <option value="user">user</option>

@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
     const hash = await bcrypt.hash(password, 10);
     const created = await prisma.user.create({ data: { email, name, role, password: hash } });
     return NextResponse.json({ id: created.id });
-  } catch (e: any) {
-    if (e?.code === "P2002") return NextResponse.json({ error: "Email already exists" }, { status: 409 });
+  } catch (e: unknown) {
+    if (e instanceof Error && (e as { code?: string }).code === "P2002") return NextResponse.json({ error: "Email already exists" }, { status: 409 });
     console.error(e);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
