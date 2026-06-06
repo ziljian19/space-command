@@ -1,26 +1,165 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ── Base ── */
+html, body {
+  background-color: #040d1a;
+  color: #c8d8f0;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Starfield background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 5%   10%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 15%  30%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25%  55%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 38%  20%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1px 1px at 48%  70%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(1px 1px at 58%  40%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 70%  15%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78%  60%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(1px 1px at 88%  35%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 95%  80%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1px 1px at 12%  80%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(1px 1px at 32%  90%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 62%  85%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(1px 1px at 82%  90%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(2px 2px at 20%  45%, rgba(180,220,255,0.25) 0%, transparent 100%),
+    radial-gradient(2px 2px at 55%  25%, rgba(180,220,255,0.2)  0%, transparent 100%),
+    radial-gradient(2px 2px at 85%  55%, rgba(180,220,255,0.25) 0%, transparent 100%);
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body > * { position: relative; z-index: 1; }
+
+/* Subtle top glow */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 300px;
+  background: radial-gradient(ellipse at 50% -20%, rgba(0, 140, 255, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── Typography ── */
+h1, h2, h3 {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.05em;
 }
+h1 { @apply text-3xl font-bold; }
+h2 { @apply text-2xl font-semibold; }
+h3 { @apply text-xl font-semibold; }
+
+/* ── Links ── */
+a { @apply text-cyan-400 hover:text-cyan-300 transition-colors; }
+
+/* ── Form inputs ── */
+.input {
+  @apply w-full rounded border border-cyan-900/50 bg-[#071224] px-3 py-2
+         text-slate-200 placeholder-slate-600 outline-none
+         focus:ring-1 focus:ring-cyan-500/40 focus:border-cyan-500/50
+         transition-colors;
+}
+select.input option {
+  background: #071224;
+  color: #e2e8f0;
+}
+
+/* ── Buttons ── */
+.btn {
+  @apply inline-flex items-center gap-2 rounded border border-cyan-900/60
+         bg-[#071224] px-3 py-2 text-sm font-medium text-slate-300
+         hover:bg-cyan-950/60 hover:border-cyan-700/60 hover:text-cyan-300
+         transition-all;
+}
+.btn-primary {
+  @apply bg-cyan-600/20 border-cyan-500/60 text-cyan-300
+         hover:bg-cyan-600/30 hover:border-cyan-400 hover:text-cyan-200;
+}
+.btn-danger {
+  @apply bg-red-600/10 border-red-500/40 text-red-400
+         hover:bg-red-600/20 hover:border-red-400;
+}
+
+/* ── Layout shell ── */
+.shell {
+  @apply mx-auto w-full max-w-5xl px-4;
+}
+
+/* ── Cards ── */
+.card {
+  @apply rounded-lg border border-cyan-900/40 bg-[#071224]/80 p-5 backdrop-blur-sm;
+}
+.card-glow {
+  box-shadow: 0 0 20px rgba(0, 180, 255, 0.06), inset 0 1px 0 rgba(0, 200, 255, 0.05);
+}
+
+/* ── Tables ── */
+.table {
+  @apply w-full text-sm;
+}
+.table thead th {
+  @apply text-xs font-semibold uppercase tracking-widest text-cyan-600/80
+         border-b border-cyan-900/50 px-3 py-2 text-left;
+  font-family: 'Share Tech Mono', monospace;
+}
+.table tbody td {
+  @apply border-t border-cyan-950/60 px-3 py-2 align-top text-slate-300;
+}
+.table tbody tr:hover td {
+  @apply bg-cyan-950/20;
+}
+
+/* ── Admin tab nav ── */
+.admin-tab {
+  @apply inline-block py-2 px-3 border-b-2 border-transparent text-slate-500
+         text-xs uppercase tracking-widest font-medium transition-colors;
+  font-family: 'Share Tech Mono', monospace;
+}
+.admin-tab:hover { @apply text-slate-300; }
+.admin-tab-active {
+  @apply border-cyan-500 text-cyan-400;
+}
+
+/* ── Cyan accent divider ── */
+.divider-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 200, 255, 0.4), transparent);
+}
+
+/* ── Scanline overlay on cards (subtle) ── */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Status badges ── */
+.badge {
+  @apply inline-block px-2 py-0.5 rounded text-xs font-mono uppercase tracking-wider;
+}
+.badge-admin { @apply bg-cyan-500/15 text-cyan-400 border border-cyan-500/30; }
+.badge-user  { @apply bg-slate-700/40 text-slate-400 border border-slate-600/30; }
