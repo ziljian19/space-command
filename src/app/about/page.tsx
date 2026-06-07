@@ -14,10 +14,16 @@ type APOD = {
 const fetchAPOD = unstable_cache(
   async () => {
     const key = process.env.NASA_API_KEY || "DEMO_KEY";
+    console.log("[APOD] fetching with key prefix:", key.slice(0, 6));
     const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}`, {
       cache: "no-store",
     });
-    if (!res.ok) throw new Error(`NASA API error: ${res.status}`);
+    console.log("[APOD] response status:", res.status);
+    if (!res.ok) {
+      const body = await res.text();
+      console.error("[APOD] error body:", body);
+      throw new Error(`NASA API error: ${res.status}`);
+    }
     return res.json() as Promise<APOD>;
   },
   ["apod"],
@@ -27,7 +33,8 @@ const fetchAPOD = unstable_cache(
 async function getAPOD(): Promise<APOD | null> {
   try {
     return await fetchAPOD();
-  } catch {
+  } catch (e) {
+    console.error("[APOD] failed:", e);
     return null;
   }
 }
