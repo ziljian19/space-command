@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { unstable_cache } from "next/cache";
 
+export const dynamic = "force-dynamic";
+
 type APOD = {
   title: string;
   explanation: string;
