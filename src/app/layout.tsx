@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Providers from "./providers";
 import Link from "next/link";
 import SiteNavAuth from "./site-nav-auth";
+import MobileNav from "./mobile-nav";
 
 export const metadata: Metadata = {
   title: "Space Command",
@@ -17,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {/* ── Top nav ── */}
           <header className="border-b border-cyan-900/40 bg-[#040d1a]/80 backdrop-blur-md sticky top-0 z-50">
-            <nav className="shell flex items-center gap-2 sm:gap-6 py-3">
+            <nav className="relative shell flex items-center gap-2 sm:gap-6 py-3">
 
               {/* Logo */}
               <Link href="/" className="flex items-center gap-2.5 no-underline group">
@@ -31,8 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </span>
               </Link>
 
-              {/* Nav links */}
-              <div className="flex items-center gap-1">
+              {/* Desktop nav links — hidden on mobile */}
+              <div className="hidden sm:flex items-center gap-1">
                 <Link href="/about"
                   className="px-3 py-1.5 text-xs uppercase tracking-widest text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/40 rounded transition-all no-underline"
                   style={{ fontFamily: "'Share Tech Mono', monospace" }}>
@@ -45,8 +46,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </Link>
               </div>
 
-              {/* Auth (right side) */}
-              <SiteNavAuth />
+              {/* Desktop auth — hidden on mobile */}
+              <div className="hidden sm:flex ml-auto">
+                <SiteNavAuth />
+              </div>
+
+              {/* Mobile hamburger — hidden on desktop */}
+              <MobileNav />
+
             </nav>
           </header>
 
