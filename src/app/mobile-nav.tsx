@@ -42,9 +42,10 @@ export default function MobileNav() {
         />
       </button>
 
-      {/* Dropdown menu */}
+      {/* Dropdown menu — fixed so it escapes header stacking context */}
       {open && (
-        <div className="absolute top-full left-0 right-0 border-b border-cyan-900/40 z-50 flex flex-col px-4 py-4 gap-1" style={{ backgroundColor: "#040d1a" }}>
+        <div className="fixed left-0 right-0 border-b border-cyan-900/60 flex flex-col px-4 py-4 gap-1"
+          style={{ top: "53px", backgroundColor: "#040d1a", zIndex: 9999 }}>
 
           {/* User pill if logged in */}
           {session?.user?.name && (
