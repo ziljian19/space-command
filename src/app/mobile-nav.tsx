@@ -44,7 +44,7 @@ export default function MobileNav() {
 
       {/* Dropdown menu */}
       {open && (
-        <div className="absolute top-full left-0 right-0 border-b border-cyan-900/40 bg-[#040d1a]/95 backdrop-blur-md z-50 flex flex-col px-4 py-4 gap-1">
+        <div className="absolute top-full left-0 right-0 border-b border-cyan-900/40 z-50 flex flex-col px-4 py-4 gap-1" style={{ backgroundColor: "#040d1a" }}>
 
           {/* User pill if logged in */}
           {session?.user?.name && (
